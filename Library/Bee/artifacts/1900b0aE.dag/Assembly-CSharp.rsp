@@ -358,6 +358,7 @@
 "Assets/Script/GameManager.cs"
 "Assets/Script/Staff.cs"
 "Assets/Script/StaffAnimation.cs"
+"Assets/Script/TestScene.cs"
 -langversion:9.0
 
 /deterministic

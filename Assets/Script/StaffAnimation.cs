@@ -16,7 +16,6 @@ public class StaffAnimation : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("11");
         if (_staff.State == UnitState.IsIdel)
         {
             DisableAll();
