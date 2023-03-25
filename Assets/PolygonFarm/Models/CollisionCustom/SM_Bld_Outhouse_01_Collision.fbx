@@ -1,0 +1,284 @@
+ry>
+            Expert: Resets the normalization factor for the named field of the named document.
+            </summary>
+            <seealso cref="M:Lucene.Net.Index.IndexReader.Norms(System.String)"/>
+            <seealso cref="M:Lucene.Net.Search.Similarity.DecodeNorm(System.Byte)"/>
+            <exception cref="T:Lucene.Net.Index.StaleReaderException">
+            If the index has changed since this reader was opened
+            </exception>
+            <exception cref="T:Lucene.Net.Index.CorruptIndexException">
+            If the index is corrupt
+            </exception>
+            <exception cref="T:Lucene.Net.Store.LockObtainFailedException">
+            If another writer has this index open (<c>write.lock</c> could not be obtained)
+            </exception>
+            <exception cref="T:System.IO.IOException">
+            If there is a low-level IO error
+            </exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.Terms">
+            <summary>Returns an enumeration of all the terms in the index. The
+            enumeration is ordered by Term.compareTo(). Each term is greater
+            than all that precede it in the enumeration. Note that after
+            calling terms(), <see cref="M:Lucene.Net.Index.TermEnum.Next"/> must be called
+            on the resulting enumeration before calling other methods such as
+            <see cref="P:Lucene.Net.Index.TermEnum.Term"/>.
+            </summary>
+            <exception cref="T:System.IO.IOException">
+            If there is a low-level IO error 
+            </exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.Terms(Lucene.Net.Index.Term)">
+            <summary>Returns an enumeration of all terms starting at a given term. If
+            the given term does not exist, the enumeration is positioned at the
+            first term greater than the supplied term. The enumeration is
+            ordered by Term.compareTo(). Each term is greater than all that
+            precede it in the enumeration.
+            </summary>
+            <exception cref="T:System.IO.IOException">
+            If there is a low-level IO error
+            </exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.DocFreq(Lucene.Net.Index.Term)">
+            <summary>Returns the number of documents containing the term <c>t</c>.</summary>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.TermDocs(Lucene.Net.Index.Term)">
+            <summary>Returns an enumeration of all the documents which contain
+            <c>term</c>. For each document, the document number, the frequency of
+            the term in that document is also provided, for use in
+            search scoring.  If term is null, then all non-deleted
+            docs are returned with freq=1.
+            Thus, this method implements the mapping:
+            <p/><list>
+            Term ¬†¬† =&gt; ¬†¬† &lt;docNum, freq&gt;<sup>*</sup>
+            </list>
+            <p/>The enumeration is ordered by document number.  Each document number
+            is greater than all that precede it in the enumeration.
+            </summary>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.TermDocs">
+            <summary>Returns an unpositioned <see cref="T:Lucene.Net.Index.TermDocs"/> enumerator.</summary>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.TermPositions(Lucene.Net.Index.Term)">
+            <summary>Returns an enumeration of all the documents which contain
+            <c>term</c>.  For each document, in addition to the document number
+            and frequency of the term in that document, a list of all of the ordinal
+            positions of the term in the document is available.  Thus, this method
+            implements the mapping:
+            
+            <p/><list>
+            Term ¬†¬† =&gt; ¬†¬† &lt;docNum, freq,
+            &lt;pos<sub>1</sub>, pos<sub>2</sub>, ...
+            pos<sub>freq-1</sub>&gt;
+            &gt;<sup>*</sup>
+            </list>
+            <p/> This positional information facilitates phrase and proximity searching.
+            <p/>The enumeration is ordered by document number.  Each document number is
+            greater than all that precede it in the enumeration.
+            </summary>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.TermPositions">
+            <summary>Returns an unpositioned <see cref="T:Lucene.Net.Index.TermPositions"/> enumerator.</summary>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.DeleteDocument(System.Int32)">
+            <summary>
+            Deletes the document numbered <c>docNum</c>.  Once a document is
+            deleted it will not appear in TermDocs or TermPostitions enumerations.
+            Attempts to read its field with the <see cref="M:Lucene.Net.Index.IndexReader.Document(System.Int32)"/>
+            method will result in an error.  The presence of this document may still be
+            reflected in the <see cref="M:Lucene.Net.Index.IndexReader.DocFreq(Lucene.Net.Index.Term)"/> statistic, though
+            this will be corrected eventually as the index is further modified.
+            </summary>
+            <exception cref="T:Lucene.Net.Index.StaleReaderException">
+            If the index has changed since this reader was opened
+            </exception>
+            <exception cref="T:Lucene.Net.Index.CorruptIndexException">If the index is corrupt</exception>
+            <exception cref="T:Lucene.Net.Store.LockObtainFailedException">
+            If another writer has this index open (<c>write.lock</c> could not be obtained)
+            </exception>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.DoDelete(System.Int32)">
+            <summary>Implements deletion of the document numbered <c>docNum</c>.
+            Applications should call <see cref="M:Lucene.Net.Index.IndexReader.DeleteDocument(System.Int32)"/> or <see cref="M:Lucene.Net.Index.IndexReader.DeleteDocuments(Lucene.Net.Index.Term)"/>.
+            </summary>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.DeleteDocuments(Lucene.Net.Index.Term)">
+            <summary>
+            Deletes all documents that have a given <c>term</c> indexed.
+            This is useful if one uses a document field to hold a unique ID string for
+            the document.  Then to delete such a document, one merely constructs a
+            term with the appropriate field and the unique ID string as its text and
+            passes it to this method.
+            See <see cref="M:Lucene.Net.Index.IndexReader.DeleteDocument(System.Int32)"/> for information about when this deletion will 
+            become effective.
+            </summary>
+            <returns>The number of documents deleted</returns>
+            <exception cref="T:Lucene.Net.Index.StaleReaderException">
+            If the index has changed since this reader was opened
+            </exception>
+            <exception cref="T:Lucene.Net.Index.CorruptIndexException">If the index is corrupt</exception>
+            <exception cref="T:Lucene.Net.Store.LockObtainFailedException">
+            If another writer has this index open (<c>write.lock</c> could not be obtained)
+            </exception>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.UndeleteAll">
+            <summary>Undeletes all documents currently marked as deleted in this index.
+            
+            </summary>
+            <exception cref="T:Lucene.Net.Index.StaleReaderException">
+            If the index has changed since this reader was opened
+            </exception>
+            <exception cref="T:Lucene.Net.Index.CorruptIndexException">If the index is corrupt</exception>
+            <exception cref="T:Lucene.Net.Store.LockObtainFailedException">
+            If another writer has this index open (<c>write.lock</c> could not be obtained)
+            </exception>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.DoUndeleteAll">
+            <summary>Implements actual undeleteAll() in subclass. </summary>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.AcquireWriteLock">
+            <summary>
+            Does nothing by default. Subclasses that require a write lock for
+            index modifications must implement this method. 
+            </summary>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.Flush">
+            <summary> </summary>
+            <exception cref="T:System.IO.IOException"/>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.Flush(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <param name="commitUserData">Opaque Map (String -&gt; String)
+            that's recorded into the segments file in the index,
+            and retrievable by <see cref="M:Lucene.Net.Index.IndexReader.GetCommitUserData(Lucene.Net.Store.Directory)"/>
+            </param>
+            <exception cref="T:System.IO.IOException"/>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.Commit">
+            <summary> Commit changes resulting from delete, undeleteAll, or
+            setNorm operations
+            
+            If an exception is hit, then either no changes or all
+            changes will have been committed to the index
+            (transactional semantics).
+            </summary>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.Commit(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary> Commit changes resulting from delete, undeleteAll, or
+            setNorm operations
+            
+            If an exception is hit, then either no changes or all
+            changes will have been committed to the index
+            (transactional semantics).
+            </summary>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.DoCommit(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>Implements commit.</summary>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.Dispose">
+            <summary> Closes files associated with this index.
+            Also saves any new deletions to disk.
+            No other methods should be called after this has been called.
+            </summary>
+            <exception cref="T:System.IO.IOException">If there is a low-level IO error</exception>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.DoClose">
+            <summary>Implements close. </summary>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.GetFieldNames(Lucene.Net.Index.IndexReader.FieldOption)">
+            <summary> Get a list of unique field names that exist in this index and have the specified
+            field option information.
+            </summary>
+            <param name="fldOption">specifies which field option should be available for the returned fields
+            </param>
+            <returns> Collection of Strings indicating the names of the fields.
+            </returns>
+            <seealso cref="T:Lucene.Net.Index.IndexReader.FieldOption">
+            </seealso>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.Main(System.String[])">
+            <summary> Prints the filename and size of each file within a given compound file.
+            Add the -extract flag to extract files to the current working directory.
+            In order to make the extracted version of the index work, you have to copy
+            the segments file from the compound index into the directory where the extracted files are stored.
+            </summary>
+            <param name="args">Usage: Lucene.Net.Index.IndexReader [-extract] &lt;cfsfile&gt;
+            </param>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.ListCommits(Lucene.Net.Store.Directory)">
+             <summary>Returns all commit points that exist in the Directory.
+             Normally, because the default is <see cref="T:Lucene.Net.Index.KeepOnlyLastCommitDeletionPolicy"/>
+            , there would be only
+             one commit point.  But if you're using a custom <see cref="T:Lucene.Net.Index.IndexDeletionPolicy"/>
+             then there could be many commits.
+             Once you have a given commit, you can open a reader on
+             it by calling <see cref="M:Lucene.Net.Index.IndexReader.Open(Lucene.Net.Index.IndexCommit,System.Boolean)"/>
+             There must be at least one commit in
+             the Directory, else this method throws <see cref="T:System.IO.IOException"/>.  
+             Note that if a commit is in
+             progress while this method is running, that commit
+             may or may not be returned array.  
+             </summary>
+        </member>
+        <member name="M:Lucene.Net.Index.IndexReader.GetSequentialSubReaders">
+            <summary>Expert: returns the sequential sub readers that this
+            reader is logically composed of.  For example,
+            IndexSearcher uses this API to drive searching by one
+            sub reader at a time.  If this reader is not composed
+            of sequential child readers, it should return null.
+            If this method returns an empty array, that means this
+            reader is a null reader (for example a MultiReader
+            that has no sub readers).
+            <p/>
+            NOTE: You should not try using sub-readers returned by
+            this method to make any changes (setNorm, deleteDocument,
+            etc.). While this might succeed for one composite reader
+            (like MultiReader), it will most likely lead to index
+            corruption for other readers (like DirectoryReader obtained
+            through <see cref="M:Lucene.Net.Index.IndexReader.Open(Lucene.Net.Store.Directory,System.Boolean)"/>. Use the parent reader directly. 
+            </summary>
+        </member>
+        <member name="P:Lucene.Net.Index.IndexReader.RefCount">
+            <summary>Expert: returns the current refCount for this reader </summary>
+        </member>
+        <member name="P:Lucene.Net.Index.IndexReader.Version">
+            <summary> Version number when this IndexReader was opened. Not implemented in the
+            IndexReader base class.
+            
+            <p/>
+            If this reader is based on a Directory (ie, was created by calling
+            <see cref="M:Lucene.Net.Index.IndexReader.Open(Lucene.Net.Store.Directory,System.Boolean)"/>, or <see cref="M:Lucene.Net.Index.IndexReader.Reopen"/> 
+            on a reader based on a Directory), then
+            this method returns the version recorded in the commit that the reader
+            opened. This version is advanced every time <see cref="M:Lucene.Net.Index.IndexWriter.Commit"/> is
+            called.
+            <p/>
+            
+            <p/>
+            If instead this reader is a near real-time reader (ie, obtained by a call
+            to <see cref="M:Lucene.Net.Index.IndexWriter.GetReaderéı g^”É~Œ˚D¢hΩ¡∫Ã$&ˇ\\˜…Ó·C˚g˘˚º÷®CÙ7?µNÂ≥NÌ≠ø›GZˇHú˛6ÚÌÖgÕÈÕcˆ_~™ˇ∫p…wêz~xx°W>x|ﬁ≠ˇågÁâkÚqè?Ä˜ÙŸèg‚=_ ÖCÆ˙i@p÷+›£qËQ«‰=Î‰É«sºˆè9ÿâÙ´É÷o=óöSˇQˇO„wÔü˙æ˘ö‹Û˚¢≈ß(ºÒ!Ë}ÊÈ‰rõâ~Ä8
+ü~?mÙπ[º‹æŸ}H>™{åØtıWuVÛ‚wë»sàéó∑…@}i%√£˙ƒ”πˆO>µãˆœö É$LA             )       
+BinormalsWdê         xc` Åˆ`jîá—Ù0öËX  í™q                         9D                    LayerElementTangentI    ªA                    VersionIf   ·A             	       NameS   map1$B                    MappingInformationTypeS   ByPolygonVertex`B                    ReferenceInformationTypeS   Direct’C             T      Tangentsd∞     G  x’î1r1E=‘πúÉC‰it*&á†M
+⁄4p
+j†ëı•Y,{¿ªÎ‚¡[˘Î[hBn]ær4«IÚ«v«kÛK:Ss¯FYﬂáÅ~¨O≠ÍÃaPı/)GZ-¨∑>~ûXè~?v›˘õØØy˝±¯?Ùˇp~¯ˇÈ¨Í|ù’ ˘bs2êÎvçÊO¢„$+ø§35'lT◊˙◊™éŒèÍ#⁄¸(≤j9∂Y∞ÛÅn˜^bD.ÿﬂÛµ˘%ù©9|£¨?◊@?÷ÔVuœèõ7ú√qÌSÍÁYé<¶Ø ’yUNbÃ˘Ô…£⁄bÛ∂Â˜ÛpXù”˜T ›œm)ˇ{˘≥è:≥˜S™ìÛ«:s‘Â®ãu"ˇ”ÈÚLæıÅ∞—q<ÓÕ±_ÉÈ(Hı_ïìs˛{Ú®Vö)?Ìû‚_•¸IÁÁ†>}$ D             )       	TangentsWdê         xc` Åˆ`jîá—Ù0öËX  í™q                         aH                    LayerElementUVI    äD                    VersionIe   ∞D             	       NameS   map1ÛD                    MappingInformationTypeS   ByPolygonVertex6E                    ReferenceInformationTypeS   IndexToDirect€E             ä       UVd®      }   xÌ“ªÄ0QwFÎî@HH@@@‡6è`%$
+0h<Áœô-Â~÷©}ﬁ◊˛¡À3Æ´ﬂ¬c˛è˘üœ∏b˚œ·1ÔºÊ€/9Î±z˝XÛ˙·1_GÌ «ˇÎ…ì/y…<&g=ñ/y¥ÊÂë«¸»gøÒˇ˘º VOü©HH             M      UVIndexiê       @                                                	      
+                                                                                                                    !   !       "   #   #   "   $   %      &   '      (         )   *   +   ,   -   -   ,   .   /   /   .   0   1   1   0   2   3   +   4   5   ,   6   *   -   7   8   9   :   ;   ;   :   <   =   =   <   >   ?   ?   >   @   A   9   B   C   :   D   8   ;   E   F   G   H   I   I   H   J   K   K   J   L   M   M   L   N   O   G   P   Q   H   R   F   I   S                            πJ                    LayerElementSmoothingI    πH                    VersionIf   €H                    NameS    I                    MappingInformationTypeS   ByEdgeQI                    ReferenceInformationTypeS   Direct†J             -      	SmoothingiH                                                                                                                                                                                                                                                                                                                                   ¸K                    LayerElementMaterialI    K                    VersionIe   2K                    NameS    mK                    MappingInformationTypeS   AllSame∞K                    ReferenceInformationTypeS   IndexToDirect„K                    	Materialsi                                       ˝O                    LayerI    DL                    VersionId   ﬁL                      LayerElementùL                    TypeS   LayerElementNormal≈L                    
+TypedIndexI                             zM                      LayerElement9M                    TypeS   LayerElementBinormalaM                    
+TypedIndexI                             N                      LayerElement‘M                    TypeS   LayerElementTangent¸M                    
+TypedIndexI                             ±N                      LayerElementpN                    TypeS   LayerElementMaterialòN                    
+TypedIndexI                             NO                      LayerElementO                    TypeS   LayerElementSmoothing5O                    
+TypedIndexI                             ‰O                      LayerElement£O                    TypeS   LayerElementUVÀO                    
+TypedIndexI                                                                               ¿R             :       ModelL∞˚„$S  S#   SM_Bld_Outhouse_01_Collision ModelS   MeshìP                    VersionIË   VR                      Properties70˝P             +       PS   RotationActiveS   boolS    S    I   ?Q             (       PS   InheritTypeS   enumS    S    I   †Q             G       PS
+   ScalingMaxS   Vector3DS   VectorS    D        D        D        ÚQ             8       PS   DefaultAttributeIndexS   intS   IntegerS    I    =R             1       PS   currentUVSetS   KStringS    S   US   map1                         xR                    ShadingCTßR                    CullingS
+   CullingOff                         ëV             %       MaterialL∞ó/S  S   lambert1 MaterialS    +S                    VersionIf   \S                    ShadingModelS   lambertÑS                    
+MultiLayerI    xV                      Properties70T             A       PS   AmbientColorS   ColorS    S   AD        D        D        _T             A       PS   DiffuseColorS   ColorS    S   AD      ‡?D      ‡?D      ‡?™T             1       PS   DiffuseFactorS   NumberS    S   AD   †ôôÈ?˙T             6       PS   TransparencyFactorS   NumberS    S   AD      ?YU             E       PS   EmissiveS   Vector3DS   VectorS    D        D        D        ∑U             D       PS   AmbientS   Vector3DS   VectorS    D        D        D        V             D       PS   DiffuseS   Vector3DS   VectorS    D   †ôôŸ?D   †ôôŸ?D   †ôôŸ?_V             0       PS   OpacityS   doubleS   NumberS    D      ?                                                                           ÄW                      ConnectionsW                    CS   OOL∞˚„$S  L        4W                    CS   OOLpvs*S  L∞˚„$S  gW                    CS   OOL∞ó/S  L∞˚„$S                                                    ˙º™
+“¡‹f∞yÒÖÚ }           L                                                                                                                          ¯ZåjﬁıŸ~ÏÈ„uè)
